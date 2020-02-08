@@ -1,4 +1,4 @@
-package com.dogacoder.www.scy;
+package com.dogacoder.www.braces;
 
 import org.junit.Test;
 
