@@ -2,10 +2,7 @@ package com.dogacoder.www.metrics;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -66,6 +63,14 @@ public class PossibleFestivalVacations {
         int size = T.length;
         int possibleVacations = size;
         Map<Integer, Set<Integer>> reachMap = populateReachmap(T);
+        List<Set<Integer>> villageListPerPair = new ArrayList<>();
+
+        for (int i = 0; i < size-1; i++) {
+            Set<Integer> villageList = getVillageList(i, i+1, reachMap);
+        }
+
+
+
         for (int i = 0; i < size-1; i++) {
             for (int j = i+1; j < size; j++) {
                 if (canGo(i, j, reachMap)) {
@@ -74,6 +79,23 @@ public class PossibleFestivalVacations {
             }
         }
         return possibleVacations;
+    }
+
+    private Set<Integer> getVillageList(int village, int nextVillage, Map<Integer, Set<Integer>> reachMap) {
+        Set<Integer> villageList = new TreeSet<>();
+        villageList.add(village);
+        villageList.add(village);
+        while (true) {
+            Set<Integer> routesFromVillage = reachMap.get(village);
+            if (routesFromVillage.contains(nextVillage)) {
+                villageList.add(nextVillage);
+                break;
+            }
+            for (int i = 0; i < routesFromVillage.size(); i++) {
+                village = i;
+            }
+        }
+        return villageList;
     }
 
     private Map<Integer, Set<Integer>> populateReachmap(int[] routes) {
@@ -92,7 +114,8 @@ public class PossibleFestivalVacations {
     }
 
     private boolean canGo(int a, int b, Map<Integer, Set<Integer>> reachMap) {
-        if (reachMap.get(a).contains(b)) {
+        if (a==b) {
+            System.out.println("Route = " + a + " -> " + b);
             return true;
         }
         final Set<Integer> reachableVillages = reachMap.get(a);
@@ -107,9 +130,9 @@ public class PossibleFestivalVacations {
 
     @Test
     public void testShortestDistance() {
-        int input[] = {2,0,2,2,1,0};
+        int input[] = {5, 5, 0, 5, 5, 5};
         int answer = solution(input);
         System.out.println(answer);
-        assertTrue(answer == 12);
+        assertTrue(answer == 9);
     }
 }
