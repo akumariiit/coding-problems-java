@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution2 {
+public class HourGlass2 {
 
     public int solution(Integer[] a, Integer[] b) {
         final List<Integer> result = new ArrayList<>();

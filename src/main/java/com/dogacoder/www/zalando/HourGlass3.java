@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class Solution3 {
+public class HourGlass3 {
 
     public int solution(int[] input) {
         Map<Integer, Integer> countMap = new HashMap<>();

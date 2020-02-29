@@ -2,7 +2,7 @@ package com.dogacoder.www.zalando;
 
 import org.junit.Test;
 
-public class Solution2 {
+public class HourGlass2 {
 
     public int lightBulbsCount(int[] A) {
         final int size = A.length;

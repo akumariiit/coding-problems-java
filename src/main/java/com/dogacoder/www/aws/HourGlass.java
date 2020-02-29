@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Solution {
+public class HourGlass {
     public int solution(int[] A) {
         // write your code in Java SE 8
         final Map<Integer, Integer> countMap = new HashMap<>();

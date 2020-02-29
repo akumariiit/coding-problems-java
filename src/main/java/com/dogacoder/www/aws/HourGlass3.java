@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution3 {
+public class HourGlass3 {
     @Test
     public void test2() {
         int t[] = {1, 0, 0, 0, 2, 0, 3, 0, 4, 0 ,4,10,0,11,8,14};
