@@ -28,9 +28,9 @@ package com.dogacoder.www.metrics;
  */
 public class BiggestNumberDFS {
     public static void main(String[] args) {
-        //int[][] a = {{9, 9, 7}, {9, 7, 2}, {6, 9, 5}, {9, 1, 2}};
+        int[][] a = {{9, 9, 7}, {9, 7, 2}, {6, 9, 5}, {9, 1, 2}};
         //int[][] a = {{1}};
-        int[][] a = {{1, 1, 1}, {1, 1, 5}, {1, 1, 1}, {1, 1, 1}};
+        //int[][] a = {{1, 1, 1}, {1, 1, 5}, {1, 1, 1}, {1, 1, 1}};
         System.out.println(solution(a));
     }
     public static String solution(int[][] A) {
