@@ -1,5 +1,7 @@
 package com.dogacoder.www.strings;
 
+import org.junit.Test;
+
 public class PalindromeNSquare {
 
     void printSubStr(String str, int low, int high) {
@@ -36,11 +38,15 @@ public class PalindromeNSquare {
                 ++high;
             }
         }
-
         System.out.print("Longest palindrome substring is: ");
         printSubStr(str, start, start + maxLength - 1);
-
         return maxLength;
+    }
+
+    @Test
+    public void test() {
+        String input = "abcddcbak";
+        System.out.println(longestPalSubstr(input));
     }
 
 }
