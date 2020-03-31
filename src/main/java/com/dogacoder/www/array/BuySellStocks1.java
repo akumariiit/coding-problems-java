@@ -2,8 +2,6 @@ package com.dogacoder.www.array;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 
 /**
  *
