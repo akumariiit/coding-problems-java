@@ -18,6 +18,10 @@ public class Graph {
     public void addEdge(int source, int target) {
         adjacencyLists[source].add(target);
     }
+    public void addEdgeUndirected(int source, int target) {
+        adjacencyLists[source].add(target);
+        adjacencyLists[target].add(source);
+    }
 
     public int getNumberOfNodes() {
         return numberOfNodes;
