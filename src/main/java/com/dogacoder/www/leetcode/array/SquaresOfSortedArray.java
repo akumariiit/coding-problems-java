@@ -10,6 +10,9 @@ public class SquaresOfSortedArray {
             if (A[i] < 0) {
                 A[i] = -A[i];
             }
+            else {
+                break;
+            }
         }
         Arrays.sort(A);
         for (int i=0; i<A.length; i++) {
