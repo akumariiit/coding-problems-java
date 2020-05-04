@@ -28,6 +28,17 @@ public class NumberComplement {
         return res;
     }
 
+    public int findComplement_Quick(int num) {
+        int cp = num;
+        int sum = 0;
+        while(num > 0){
+            sum = (sum << 1) + 1;
+            num >>= 1;
+        }
+        return sum - cp;
+
+    }
+
     private int getMSB(String bin) {
         for (int i = 0; i < bin.length(); i++) {
             if (bin.charAt(i) == '1') {
