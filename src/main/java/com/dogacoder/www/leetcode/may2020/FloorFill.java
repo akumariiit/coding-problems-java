@@ -83,9 +83,39 @@ public class FloorFill {
         }
     }
 
+    public int[][] floodFill_DFS(int[][] image, int sr, int sc, int newColor) {
+        int oldColor = image[sr][sc];
+        if (newColor == oldColor) {
+            return image;
+        }
+        fillColor(image, sr, sc, newColor, oldColor);
+        return image;
+    }
+
+    private void fillColor(int[][] image, int sr, int sc, int newColor, int oldColor) {
+        if (isValid(image, sr, sc) && image[sr][sc] == oldColor) {
+            image[sr][sc] = newColor;
+            int[] dx = {-1, 1, 0, 0};
+            int[] dy = {0, 0, -1, 1};
+            for (int i = 0; i < dx.length; i++) {
+                fillColor(image, sr+dx[i], sc+dy[i], newColor, oldColor);
+            }
+        }
+    }
+
+    private boolean isValid(int[][] image, int sr, int sc) {
+        return (sr >= 0 && sc >=0 && sr < image.length && sc< image[0].length);
+    }
+
     @Test
     public void test() {
         int[][] a = {{1,1,1},{1,1,0},{1,0,1}};
         floodFill(a, 1,1, 2);
+    }
+    @Test
+    public void test2() {
+        int[][] a = {{1,1,1},{1,1,0},{1,0,1}};
+        floodFill_DFS(a, 1,1, 2);
+        System.out.println(a);
     }
 }
