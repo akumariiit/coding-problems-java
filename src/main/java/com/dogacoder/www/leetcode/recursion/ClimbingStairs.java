@@ -30,6 +30,15 @@ public class ClimbingStairs {
         return l+r;
     }
 
+    public int climbStairs_optimized(int n) {
+        int[] ways = new int[n+1];
+        ways[0] = 1;
+        ways[1] = 1;
+        for (int i = 2; i <=n; i++) {
+            ways[i] = ways[i-1] + ways[i-2];
+        }
+        return ways[n];
+    }
 
     @Test
     public void test() {
@@ -39,5 +48,10 @@ public class ClimbingStairs {
     @Test
     public void test1() {
         assertEquals(climbStairs(5), 8);
+    }
+
+    @Test
+    public void test2() {
+        assertEquals(climbStairs_optimized(5), 8);
     }
 }
