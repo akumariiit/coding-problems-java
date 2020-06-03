@@ -1,4 +1,4 @@
-package com.dogacoder.www.dynamic;
+package com.dogacoder.www.leetcode.dynamic;
 
 import org.junit.jupiter.api.Test;
 
