@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *     Do not return anything from your function.
  *
  */
-public class DeleteNodeLinkedList {
+public class DeleteNodeLinkedList_2 {
 
     public void deleteNode(ListNode node) {
         if (node.next != null) {
