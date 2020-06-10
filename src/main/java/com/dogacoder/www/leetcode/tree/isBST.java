@@ -54,24 +54,24 @@ public class isBST {
         if (root.right == null && root.left == null) {
             return true;
         }
-        int fromLeft = getMax(root.left);
-        int fromRight = getMin(root.right);
+        long fromLeft = getMax(root.left);
+        long fromRight = getMin(root.right);
         System.out.println("from left " + fromLeft + " from right " + fromRight);
         return fromLeft < root.val && fromRight > root.val && isValidBST(root.left) && isValidBST(root.right);
     }
 
-    private int getMax(TreeNode node) {
+    private long getMax(TreeNode node) {
         if (node == null) {
-            return Integer.MIN_VALUE;
+            return Long.MIN_VALUE;
         }
         if (node.right == null && node.left == null) {
             return node.val;
         }
         return Math.max(getMax(node.left), getMax(node.right));
     }
-    private int getMin(TreeNode node) {
+    private long getMin(TreeNode node) {
         if (node == null) {
-            return Integer.MAX_VALUE;
+            return Long.MAX_VALUE;
         }
         if (node.right == null && node.left == null) {
             return node.val;
@@ -85,6 +85,14 @@ public class isBST {
         root.left = null;
         root.right = new TreeNode(85);
         root.right.left = new TreeNode(50);
+        assertTrue(isValidBST(root));
+    }
+
+    @Test
+    public void test2() {
+        TreeNode root = new TreeNode(-2147483648);
+        root.left = null;
+        root.right = new TreeNode(2147483647);
         assertTrue(isValidBST(root));
     }
 }
