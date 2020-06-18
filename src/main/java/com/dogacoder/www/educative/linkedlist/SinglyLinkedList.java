@@ -25,7 +25,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertAtHead(T val) {
-        Node<T> node = new Node<>();
+        Node<T> node = new Node<>(val);
         node.val = val;
         node.next = head;
         head = node;
@@ -72,6 +72,32 @@ public class SinglyLinkedList<T> {
             temp = temp.next;
         }
         return false;
+    }
+
+    public void deleteAtHead() {
+        if (!isEmpty()) {
+            head = head.next;
+            size--;
+        }
+    }
+
+    public void deleteByValue(T val) {
+        if (isEmpty()) {
+            return;
+        }
+        Node temp = head;
+        Node prev = head;
+        while (temp != null && !temp.val.equals(val)) {
+            prev = temp;
+            temp = temp.next;
+        }
+        if (temp != null) {
+            prev.next = temp.next;
+            size--;
+        } else {
+            System.out.println("Not found");
+        }
+
     }
 
     public void print() {
