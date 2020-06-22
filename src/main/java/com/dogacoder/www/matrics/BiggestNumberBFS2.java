@@ -1,4 +1,4 @@
-package com.dogacoder.www.metrics;
+package com.dogacoder.www.matrics;
 
 import java.util.LinkedList;
 import java.util.Queue;

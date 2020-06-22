@@ -1,4 +1,4 @@
-package com.dogacoder.www.metrics;
+package com.dogacoder.www.matrics;
 
 
 import org.junit.jupiter.api.Test;
