@@ -109,6 +109,7 @@ public class SubsetSum {
         assertFalse(subsetExistsTopDown(p, 6));
     }
 
+    // time and space O(N*SUM)
     public boolean subsetBottomUp(int[] nums, int sum) {
         if (nums.length == 0) {
             return false;
@@ -155,5 +156,63 @@ public class SubsetSum {
     public void test9() {
         int[] p = {1, 3, 4, 8};
         assertFalse(subsetBottomUp(p, 6));
+    }
+
+    // optimized space O(SUM) and time O(N*SUM)
+    public boolean subsetBottomUpSpaceOptimized(int[] nums, int sum) {
+        if (nums.length == 0) {
+            return false;
+        }
+        int n = nums.length;
+        boolean[] dp = new boolean[sum+1];
+        dp[0] = true;
+        for (int i = 1; i <= sum; i++) {
+            if (nums[0] == i) {
+                dp[i] = true;
+            }
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int s = sum; s >= 1; s--) {
+
+                // excluding
+                boolean exc = dp[s];
+                boolean inc = false;
+                if (nums[i] <= s) {
+                    inc = dp[s-nums[i]];
+                }
+                dp[s] = exc || inc;
+
+                // better approach
+                /*
+                if dp[s]==true, this means we can get the sum 's' without num[i], hence we can move on to
+                 the next number else we can include num[i] and see if we can find a subset to get the
+                 remaining sum
+                if (!dp[s] && s >= num[i]) {
+                    dp[s] = dp[s - num[i]];
+                }
+                 */
+
+            }
+        }
+        return dp[sum];
+    }
+
+    @Test
+    public void test10() {
+        int[] p = {1,2,3,4};
+        assertTrue(subsetBottomUpSpaceOptimized(p, 6));
+    }
+
+    @Test
+    public void test11() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertTrue(subsetBottomUpSpaceOptimized(p, 10));
+    }
+
+    @Test
+    public void test12() {
+        int[] p = {1, 3, 4, 8};
+        assertFalse(subsetBottomUpSpaceOptimized(p, 6));
     }
 }
