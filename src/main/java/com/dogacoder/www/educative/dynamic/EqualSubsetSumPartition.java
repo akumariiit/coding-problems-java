@@ -42,25 +42,25 @@ public class EqualSubsetSumPartition {
             return false;
         }
         int k = sum/2;
-        return canDevide(nums, k, 0, nums[0]);
+        return canDevide(nums, 0, k);
     }
 
-    private boolean canDevide(int[] nums, int k, int i, int sum) {
-        if (sum == k) {
+    private boolean canDevide(int[] nums, int i, int sum) {
+        if (sum == 0) {
             return true;
         }
-        if (i >= nums.length || sum > k) {
+        if (i >= nums.length) {
             return false;
         }
 
         boolean inc = false;
-        if (sum + nums[i] <= k) {
-            inc = canDevide(nums, k, i+1, sum+nums[i]);
+        if (nums[i] <= sum) {
+            inc = canDevide(nums, i+1, sum-nums[i]);
         }
         if (inc) {
             return true;
         }
-        boolean excluding = canDevide(nums, k, i+1, sum);
+        boolean excluding = canDevide(nums,i+1, sum);
         return excluding;
     }
 
@@ -96,31 +96,28 @@ public class EqualSubsetSumPartition {
         }
         int k = sum/2;
         Boolean[][] dp = new Boolean[nums.length][k+1];
-        return canDevideMemo(nums, k, 0, nums[0], dp);
+        return canDevideMemo(nums, k, 0, dp);
     }
 
-    private boolean canDevideMemo(int[] nums, int k, int i, int sum, Boolean[][] dp) {
-        if (sum == k) {
-            dp[i][sum] = true;
+    private boolean canDevideMemo(int[] nums, int sum, int i, Boolean[][] dp) {
+        if (sum == 0) {
             return true;
         }
-        if (i >= nums.length || sum > k) {
+        if (i >= nums.length) {
             return false;
         }
         if (dp[i][sum] != null) {
             return dp[i][sum] ;
         }
 
-        if (sum + nums[i] <= k) {
-            boolean inc = canDevide(nums, k, i+1, sum+nums[i]);
+        if (nums[i] <= sum) {
+            boolean inc = canDevideMemo(nums, sum-nums[i], i+1, dp);
             if (inc) {
-                dp[i][sum] = true;
-                return true;
+                return dp[i][sum] = true;
             }
         }
-        boolean excluding = canDevide(nums, k, i+1, sum);
-        dp[i][sum] = excluding;
-        return dp[i][sum];
+        boolean excluding = canDevideMemo(nums, sum,i+1, dp);
+        return dp[i][sum] = excluding;
     }
 
     @Test
