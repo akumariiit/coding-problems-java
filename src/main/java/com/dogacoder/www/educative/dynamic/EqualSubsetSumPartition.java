@@ -42,10 +42,10 @@ public class EqualSubsetSumPartition {
             return false;
         }
         int k = sum/2;
-        return canDevide(nums, 0, k);
+        return canDivide(nums, 0, k);
     }
 
-    private boolean canDevide(int[] nums, int i, int sum) {
+    private boolean canDivide(int[] nums, int i, int sum) {
         if (sum == 0) {
             return true;
         }
@@ -55,12 +55,12 @@ public class EqualSubsetSumPartition {
 
         boolean inc = false;
         if (nums[i] <= sum) {
-            inc = canDevide(nums, i+1, sum-nums[i]);
+            inc = canDivide(nums, i+1, sum-nums[i]);
         }
         if (inc) {
             return true;
         }
-        boolean excluding = canDevide(nums,i+1, sum);
+        boolean excluding = canDivide(nums,i+1, sum);
         return excluding;
     }
 
@@ -96,10 +96,10 @@ public class EqualSubsetSumPartition {
         }
         int k = sum/2;
         Boolean[][] dp = new Boolean[nums.length][k+1];
-        return canDevideMemo(nums, k, 0, dp);
+        return canDivideMemo(nums, k, 0, dp);
     }
 
-    private boolean canDevideMemo(int[] nums, int sum, int i, Boolean[][] dp) {
+    private boolean canDivideMemo(int[] nums, int sum, int i, Boolean[][] dp) {
         if (sum == 0) {
             return true;
         }
@@ -111,12 +111,12 @@ public class EqualSubsetSumPartition {
         }
 
         if (nums[i] <= sum) {
-            boolean inc = canDevideMemo(nums, sum-nums[i], i+1, dp);
+            boolean inc = canDivideMemo(nums, sum-nums[i], i+1, dp);
             if (inc) {
                 return dp[i][sum] = true;
             }
         }
-        boolean excluding = canDevideMemo(nums, sum,i+1, dp);
+        boolean excluding = canDivideMemo(nums, sum,i+1, dp);
         return dp[i][sum] = excluding;
     }
 
