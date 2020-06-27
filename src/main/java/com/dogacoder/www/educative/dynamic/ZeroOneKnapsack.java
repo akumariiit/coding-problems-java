@@ -114,7 +114,22 @@ public class ZeroOneKnapsack {
             }
         }
         // maximum profit will be at the bottom-right corner.
+        printTaken(w, p, dp, capacity);
         return dp[p.length-1][capacity];
+    }
+
+    private void printTaken(int[] w, int[] p, int[][] dp, int capacity) {
+        int totalProfit = dp[w.length-1][capacity];
+        for (int i = w.length-1; i > 0; i--) {
+            if (totalProfit != dp[i-1][capacity]) {
+                System.out.println(w[i]);
+                capacity -= w[i];
+                totalProfit -= p[i];
+            }
+        }
+        if (totalProfit != 0) {
+            System.out.println(w[0]);
+        }
     }
 
 
@@ -136,11 +151,9 @@ public class ZeroOneKnapsack {
 
     @Test
     public void testBottomUp() {
-        int[] p = {4,5, 3, 7};
+        int[] p = {4,5,3,7};
         int[] w = {2,3,1,4};
         int c = 5;
         assertEquals(maxProfitBottomUp(p, w, c), 10);
     }
-
-
 }
