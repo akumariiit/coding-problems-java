@@ -108,4 +108,52 @@ public class SubsetSum {
         int[] p = {1, 3, 4, 8};
         assertFalse(subsetExistsTopDown(p, 6));
     }
+
+    public boolean subsetBottomUp(int[] nums, int sum) {
+        if (nums.length == 0) {
+            return false;
+        }
+        int n = nums.length;
+        boolean[][] dp = new boolean[n][sum+1];
+        for (int i = 0;i < n; i++) {
+            dp[i][0] = true;
+        }
+        for (int i = 1; i <= sum; i++) {
+            if (nums[0] == i) {
+                dp[0][i] = true;
+            }
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int s = 1; s <= sum; s++) {
+                boolean exc = dp[i-1][s];
+                if (exc) {
+                    dp[i][s] = true;
+                    continue;
+                }
+                if (s >= nums[i]) {
+                    dp[i][s] = dp[i - 1][s - nums[i]];
+                }
+            }
+        }
+        return dp[n-1][sum];
+    }
+
+    @Test
+    public void test7() {
+        int[] p = {1,2,3,4};
+        assertTrue(subsetBottomUp(p, 6));
+    }
+
+    @Test
+    public void test8() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertTrue(subsetBottomUp(p, 10));
+    }
+
+    @Test
+    public void test9() {
+        int[] p = {1, 3, 4, 8};
+        assertFalse(subsetBottomUp(p, 6));
+    }
 }
