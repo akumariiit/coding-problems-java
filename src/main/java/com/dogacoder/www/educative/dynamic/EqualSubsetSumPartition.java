@@ -57,8 +57,11 @@ public class EqualSubsetSumPartition {
         if (sum + nums[i] <= k) {
             inc = canDevide(nums, k, i+1, sum+nums[i]);
         }
+        if (inc) {
+            return true;
+        }
         boolean excluding = canDevide(nums, k, i+1, sum);
-        return inc || excluding;
+        return excluding;
     }
 
     @Test
@@ -79,7 +82,7 @@ public class EqualSubsetSumPartition {
         assertFalse(equalSubset(p));
     }
 
-    // brute force recursively
+    // Top down with memoization
     public boolean equalSubsetTopDownMemo(int[] nums) {
         if (nums.length == 0) {
             return false;
@@ -92,11 +95,11 @@ public class EqualSubsetSumPartition {
             return false;
         }
         int k = sum/2;
-        boolean[][] dp = new boolean[nums.length][sum];
+        Boolean[][] dp = new Boolean[nums.length][k+1];
         return canDevideMemo(nums, k, 0, nums[0], dp);
     }
 
-    private boolean canDevideMemo(int[] nums, int k, int i, int sum, boolean[][] dp) {
+    private boolean canDevideMemo(int[] nums, int k, int i, int sum, Boolean[][] dp) {
         if (sum == k) {
             dp[i][sum] = true;
             return true;
@@ -104,16 +107,19 @@ public class EqualSubsetSumPartition {
         if (i >= nums.length || sum > k) {
             return false;
         }
-        if (dp[i][sum]) {
-            return true;
+        if (dp[i][sum] != null) {
+            return dp[i][sum] ;
         }
 
-        boolean inc = false;
         if (sum + nums[i] <= k) {
-            inc = canDevide(nums, k, i+1, sum+nums[i]);
+            boolean inc = canDevide(nums, k, i+1, sum+nums[i]);
+            if (inc) {
+                dp[i][sum] = true;
+                return true;
+            }
         }
         boolean excluding = canDevide(nums, k, i+1, sum);
-        dp[i][sum] = inc || excluding;
+        dp[i][sum] = excluding;
         return dp[i][sum];
     }
 
@@ -133,5 +139,65 @@ public class EqualSubsetSumPartition {
     public void test6() {
         int[] p = {2, 3, 4, 6};
         assertFalse(equalSubsetTopDownMemo(p));
+    }
+
+    // bottom up with state
+    public boolean equalSubsetBottomUp(int[] nums) {
+        if (nums.length == 0) {
+            return false;
+        }
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum%2 == 1) {
+            return false;
+        }
+        int k = sum/2;
+        int n = nums.length;
+        boolean[][] dp = new boolean[nums.length][k+1];
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = true;
+        }
+        for (int i = 0; i <= k; i++) {
+            if(nums[0] == i) {
+                dp[0][i] = true;
+            }
+        }
+        for (int i = 1; i < n; i++) {
+            for (int s = 1; s <= k; s++) {
+                // excluding i
+                boolean excluding  = dp[i-1][s];
+                // including i
+                if (excluding) {
+                    dp[i][s] = true;
+                    continue;
+                }
+                boolean including = false;
+                if (nums[i] <= s) {
+                    including = dp[i-1][s-nums[i]];
+                }
+                dp[i][s] = including;
+            }
+        }
+        return dp[n-1][k];
+    }
+
+    @Test
+    public void test7() {
+        int[] p = {1,2,3,4};
+        assertTrue(equalSubsetBottomUp(p));
+    }
+
+    @Test
+    public void test8() {
+        int[] p = {1, 1, 3, 4, 7};
+        assertTrue(equalSubsetBottomUp(p));
+    }
+
+    @Test
+    public void test9() {
+        int[] p = {2, 3, 4, 6};
+        assertFalse(equalSubsetBottomUp(p));
     }
 }
