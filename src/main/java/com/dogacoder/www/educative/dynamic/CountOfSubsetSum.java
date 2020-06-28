@@ -85,4 +85,44 @@ public class CountOfSubsetSum {
         int[] p = {1, 2, 7, 1, 5};
         assertEquals(countTopDownMemo(p, 9), 3);
     }
+
+    // Time complexity O(N*Sum)
+    // Space complexity O(N*Sum)
+    public int countBottomUp(int[] nums, int sum) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int[][] dp = new int[n][sum+1];
+        for (int i = 0; i < n; i ++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 1; i <= sum; i++) {
+            dp[0][i] = (i == nums[0]) ? 1 : 0;
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int s = 1; s <= sum; s++) {
+                // excluding
+                dp[i][s] = dp[i-1][s];
+                // including
+                if (s >= nums[i]) {
+                    dp[i][s] += dp[i-1][s-nums[i]];
+                }
+            }
+        }
+        return dp[n-1][sum];
+    }
+
+    @Test
+    public void test5() {
+        int[] p = {1, 1, 2, 3};
+        assertEquals(countBottomUp(p, 4), 3);
+    }
+
+    @Test
+    public void test6() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertEquals(countBottomUp(p, 9), 3);
+    }
 }
