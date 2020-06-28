@@ -48,6 +48,21 @@ public class CountOfSubsetSum {
 
     // using memoization in top down approach
     // Time and Space complexity O(N*SUM) Since we are calculating for each subarray and for each sum
+
+    /**
+     *
+    We will try to find if we can make all possible sums with every subset to populate the array db[TotalNumbers][S+1].
+    So, at every step we have two options:
+
+    1. Exclude the number. Count all the subsets without the given number up to the given sum => dp[index-1][sum]
+    2. Include the number if its value is not more than the ‘sum’. In this case,
+     we will count all the subsets to get the remaining sum => dp[index-1][sum-num[index]]
+
+    To find the total sets, we will add both of the above two values:
+    `dp[index][sum] = dp[index-1][sum] + dp[index-1][sum-num[index]])`
+
+     **/
+
     public int countTopDownMemo(int[] nums, int sum) {
         if (nums == null || nums.length == 0) {
             return 0;
