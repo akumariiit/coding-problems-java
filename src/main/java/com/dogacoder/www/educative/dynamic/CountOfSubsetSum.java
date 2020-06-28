@@ -45,4 +45,44 @@ public class CountOfSubsetSum {
         int[] p = {1, 2, 7, 1, 5};
         assertEquals(count(p, 9), 3);
     }
+
+    // using memoization in top down approach
+    // Time and Space complexity O(N*SUM) Since we are calculating for each subarray and for each sum
+    public int countTopDownMemo(int[] nums, int sum) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        Integer[][] dp = new Integer[n][sum+1];
+        return countTopDownRecur(nums, 0, sum, dp);
+    }
+
+    private int countTopDownRecur(int[] nums, int index, int sum, Integer[][] dp) {
+        if (sum == 0) {
+            return 1;
+        }
+        if (index >= nums.length || sum < 0) {
+            return 0;
+        }
+        if (dp[index][sum] == null) {
+            // excluding
+            dp[index][sum] = countTopDownRecur(nums, index+1, sum, dp);
+            // including
+            if (nums[index] <= sum) {
+                dp[index][sum] += countTopDownRecur(nums, index+1, sum-nums[index], dp);
+            }
+        }
+        return dp[index][sum];
+    }
+    @Test
+    public void test3() {
+        int[] p = {1, 1, 2, 3};
+        assertEquals(countTopDownMemo(p, 4), 3);
+    }
+
+    @Test
+    public void test4() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertEquals(countTopDownMemo(p, 9), 3);
+    }
 }
