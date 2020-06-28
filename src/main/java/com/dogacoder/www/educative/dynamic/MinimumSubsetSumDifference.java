@@ -3,8 +3,6 @@ package com.dogacoder.www.educative.dynamic;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -64,5 +62,53 @@ public class MinimumSubsetSumDifference {
     public void test3() {
         int[] p = {1, 3, 100, 4};
         assertEquals(minDiff(p), 92);
+    }
+
+    public int minDiffTopDownMemo(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int sum = 0;
+        for (int num : nums) {
+            sum+=num;
+        }
+        Integer[][] dp = new Integer[n][sum+1];
+        return calcTopDownMemo(nums, 0, 0, 0, dp);
+    }
+
+    private int calcTopDownMemo(int[] nums, int index, int sum1, int sum2, Integer[][] dp) {
+        if (index == nums.length) {
+            return Math.abs(sum1 - sum2);
+        }
+
+        int diff = Math.abs(sum1-sum2);
+        if (dp[index][diff] == null) {
+            int diff1 = calcTopDownMemo(nums, index+1, sum1+nums[index], sum2, dp);
+            int diff2 = calcTopDownMemo(nums, index+1, sum1, sum2+nums[index], dp);
+            return dp[index][diff] = Math.min(diff1, diff2);
+        }
+        else {
+            return dp[index][diff];
+        }
+
+    }
+
+    @Test
+    public void test4() {
+        int[] p = {1, 2, 3, 9};
+        assertEquals(minDiffTopDownMemo(p), 3);
+    }
+
+    @Test
+    public void test5() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertEquals(minDiffTopDownMemo(p), 0);
+    }
+
+    @Test
+    public void test6() {
+        int[] p = {1, 3, 100, 4};
+        assertEquals(minDiffTopDownMemo(p), 92);
     }
 }
