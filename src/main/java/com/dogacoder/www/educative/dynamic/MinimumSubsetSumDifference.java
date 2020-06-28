@@ -64,6 +64,8 @@ public class MinimumSubsetSumDifference {
         assertEquals(minDiff(p), 92);
     }
 
+
+    // Using top down approach with Memoization
     public int minDiffTopDownMemo(int[] nums) {
         if (nums.length == 0) {
             return 0;
@@ -110,5 +112,92 @@ public class MinimumSubsetSumDifference {
     public void test6() {
         int[] p = {1, 3, 100, 4};
         assertEquals(minDiffTopDownMemo(p), 92);
+    }
+
+    /**
+     *
+     * Let’s assume ‘S’ represents the total sum of all the numbers. So what we are trying to achieve in this problem
+     * is to find a subset whose sum is as close to ‘S/2’ as possible, because if we can partition the given set into
+     * two subsets of an equal sum, we get the minimum difference i.e. zero. This transforms our problem to Subset Sum,
+     * where we try to find a subset whose sum is equal to a given number-- ‘S/2’ in our case.
+     * If we can’t find such a subset, then we will take the subset which has the sum closest to ‘S/2’.
+     * This is easily possible, as we will be calculating all possible sums with every subset.
+     *
+     * Essentially, we need to calculate all the possible sums up to ‘S/2’ for all numbers.
+     * So how do we populate the array db[TotalNumbers][S/2+1] in the bottom-up fashion?
+     *
+     * For every possible sum ‘s’ (where 0 <= s <= S/2), we have two options:
+     *
+     *     Exclude the number. In this case, we will see if we can get the sum ‘s’ from the subset excluding this number => dp[index-1][s]
+     *     Include the number if its value is not more than ‘s’. In this case, we will see if we can find a subset to get the remaining sum => dp[index-1][s-num[index]]
+     *
+     * If either of the two above scenarios is true, we can find a subset with a sum equal to ‘s’. We should dig into this before we can learn how to find the closest subset.
+     *
+     * @param nums
+     * @return minimum sum
+     */
+    public int minDiffBottomUp(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        int n = nums.length;
+        int k = sum/2;
+        boolean[][] dp = new boolean[n][k+1];
+
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = true;
+        }
+        for (int i = 0; i <= k; i++) {
+            if (nums[0] == i) {
+                dp[0][i] = true;
+            }
+        }
+
+        // process all subsets for all sums
+        for (int i = 1; i < n; i++) {
+            for (int s = 1; s <= k; s++) {
+                // boolean exc = dp[i-1][s];
+                // if we can get the sum 's' without the number at index 'i'
+                if (dp[i-1][s]) {
+                    dp[i][s] = true;
+                    continue;
+                }
+                // else include the number and see if we can find a subset to get the remaining sum
+                if (nums[i] <= s) {
+                    dp[i][s] = dp[i-1][s-nums[i]];
+                }
+            }
+        }
+
+        // find sum nearest to sum/2
+        int index;
+        for (index = k; index >= 0; index--) {
+            if (dp[n-1][index]) {
+                break;
+            }
+        }
+        return Math.abs(index - (sum - index));
+    }
+
+    @Test
+    public void test7() {
+        int[] p = {1, 2, 3, 9};
+        assertEquals(minDiffBottomUp(p), 3);
+    }
+
+    @Test
+    public void test8() {
+        int[] p = {1, 2, 7, 1, 5};
+        assertEquals(minDiffBottomUp(p), 0);
+    }
+
+    @Test
+    public void test9() {
+        int[] p = {1, 3, 100, 4};
+        assertEquals(minDiffBottomUp(p), 92);
     }
 }
