@@ -56,6 +56,7 @@ public class TargetSum {
         assertEquals(ways(p, 9), 2);
     }
 
+    // Time and Space Complexity O(N * Total*2) where total is sum of all elements
     public int waysTopDownMemo(int[] nums, int sum) {
         if (nums.length == 0) {
             return 0;
