@@ -55,4 +55,44 @@ public class TargetSum {
         int[] p = {1, 2, 7, 1};
         assertEquals(ways(p, 9), 2);
     }
+
+    public int waysTopDownMemo(int[] nums, int sum) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        Integer[][] dp = new Integer[n][2*total+1];
+        return wayRecursiveTopDownMemo(nums, 0, 0, sum, dp, total);
+    }
+
+    private int wayRecursiveTopDownMemo(int[] nums, int index, int currentSum, int sum, Integer[][] dp, int total) {
+        if (index == nums.length && sum == currentSum) {
+            return 1;
+        }
+        if (index >= nums.length) {
+            return 0;
+        }
+        if (dp[index][currentSum+total] == null) {
+            int excl = wayRecursiveTopDownMemo(nums, index+1, currentSum-nums[index], sum, dp, total);
+            int incl = wayRecursiveTopDownMemo(nums, index+1, currentSum+nums[index], sum, dp, total);
+            return dp[index][currentSum+total] = excl+incl;
+        }
+        return dp[index][currentSum+total];
+    }
+
+    @Test
+    public void test3() {
+        int[] p = {1, 1, 2, 3};
+        assertEquals(waysTopDownMemo(p, 1), 3);
+    }
+
+    @Test
+    public void test4() {
+        int[] p = {1, 2, 7, 1};
+        assertEquals(waysTopDownMemo(p, 9), 2);
+    }
 }
